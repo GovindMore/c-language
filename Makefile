@@ -1,3 +1,5 @@
+TOOLCHAIN = riscv64-unknown-elf-
+OBJDUMP = $(TOOLCHAIN)objdump
 ctoasm:
 	riscv64-unknown-elf-gcc -O0 -ggdb -nostdlib -march=rv32i -mabi=ilp32 -Wl,-Tm.ld asm.s c-asm.c -o main.elf
 
@@ -25,5 +27,9 @@ binary:
 objcopy:
 	riscv64-unknown-elf-objcopy -O binary main.elf main.bin	
 
+disasm: main.elf
+	$(OBJDUMP) -D -S main.elf >  main.elf.lst
+
+
 clean:
-	rm -rf *.out *.bin *.elf c-asm.s
+	rm -rf *.out *.bin *.elf c-asm.s *.elf.lst
